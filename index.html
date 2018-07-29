@@ -1,0 +1,47 @@
+<head>
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+  <script src="//unpkg.com/force-graph"></script>
+  <!--<script src="../../dist/force-graph.js"></script>-->
+
+  <link rel="stylesheet" type="text/css" href="graph.css">
+  <script src="//unpkg.com/d3-quadtree"></script>
+  <script src="//unpkg.com/d3-force"></script>
+
+</head>
+
+<body>
+  <div id="con">
+    <div id="navv" class="container">
+      <div  class="row">
+       <div class="col-md-3">
+          <button type="button" class="btn btn-danger" onclick="showGraph()">Show Graph</button>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-danger" disabled="true" onclick="showLPaths()">Show LPaths</button>
+        </div>
+        <div class="col-md-2">
+         <button type="button" class="btn btn-danger" disabled="true" onclick="showDPaths()">Show DPaths</button>
+       </div>
+       <div class="col-md-2">
+         <button type="button" class="btn btn-danger" disabled="true" onclick="showNeighbour()">Required Neighbours</button>
+       </div>
+       <div class="col-md-3">
+         <button type="button" class="btn btn-danger" disabled="true" onclick="showRadius()">Radius</button>
+       </div>
+      
+     </div>
+   </div>
+   <div id="graph"></div>
+ </div>
+
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+ <script type="text/javascript" src="graph.js"></script>
+
+
+</body>
