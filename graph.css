@@ -1,15 +1,11 @@
- html,body { margin: 0;} 
+body { 
+  font: 14px helvetica neue, helvetica, arial, sans-serif;
+}
 
-  #con{
-   background-color: #125698;
-   width: 100%;
-   height: 100%;
-
- }
- #navv{
-   position: absolute;
-   padding-top: 2.5%;
-   width:100%;
-   max-width: unset;
-   text-align: center;
- }
+#cy {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}

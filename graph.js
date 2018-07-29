@@ -1,221 +1,103 @@
-var Graph;
-var selectedNode;
-var nmap = {};  
-var iNodes = [];
-let NODE_R = 10;
-    let highlightNodes = [];
-    let highlightLink = null;
-    let rT = false;
-console.log("data");
-var check = false;
-  
-    function showGraph(){
-      if(check == false){
-         check = true;
-         showGraph()
+var cy = cytoscape({
+  container: document.getElementById('cy'),
 
-      }
-     
-  iNodes = [];
-  selectedNode = undefined;
-      $('button').prop('disabled',false);
+  boxSelectionEnabled: false,
+  autounselectify: true,
 
-   fetch('./data.json').then(res => res.json()).then(data => {
-
-    console.log(data);
-    const elem = document.getElementById('graph');
-    Graph = ForceGraph()(elem);
-
-
-    data.nodes.forEach(node => {
-      node.fx = node.x;
-      node.fy = node.y;
-    })
-
-    console.log(data);
-    data.nodes.forEach(node => {
-      nmap[node.id] = node;
-    }) 
-    Graph.zoom(.6,100)
-
-
-    Graph
-    .backgroundColor('#125698')
-    .nodeRelSize(10)
-    
- .onNodeHover(node => {
-        highlightNodes = node ? [node] : [];
-        elem.style.cursor = node ? '-webkit-grab' : null;
+  style: cytoscape.stylesheet()
+    .selector('node')
+      .css({
+        'content': 'data(id)'
       })
-      .onLinkHover(link => {
-        highlightLink = link;
-        highlightNodes = link ? [link.source, link.target] : [];
+    .selector('edge')
+      .css({
+        'curve-style': 'bezier',
+        'target-arrow-shape': 'triangle',
+        'width': 4,
+        'line-color': '#ddd',
+        'target-arrow-color': '#ddd'
       })
-      .nodeLabel(node => `${node.id}`)
-      .linkColor(link => { if( (iNodes &&  iNodes.includes(link.source.id) && iNodes.includes(link.target.id)) || (iNodes && selectedNode &&  selectedNode.id == link.source.id && iNodes.includes(link.target.id))){
-        return '#ff0000'
-      } else return 'rgba(255,255,255,0.2)'})
-      .linkDirectionalParticleWidth(link => link === highlightLink ? 4 : 0)
-      .linkWidth(link => link === highlightLink ? 5 : 1)
-      .nodeCanvasObject((node, ctx) => {
-
-       
-        if (highlightNodes.indexOf(node) !== -1) { // add ring
-          ctx.beginPath();
-           if(rT){
-        ctx.arc(node.x, node.y,node.radius, 0, 2 * Math.PI, false);
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = '#ea6c1f';
-        ctx.stroke();
-           }else{
-            ctx.arc(node.x, node.y, NODE_R * 1.4, 0, 2 * Math.PI, false);
-            ctx.fillStyle = '#ea6c1f';
-          ctx.fill();
-           }
-        
-         
-        }
-
-        
-        ctx.beginPath();
-       
-      ctx.arc(node.x, node.y, NODE_R, 0, 2 * Math.PI, false);
-    
-       
-        if(selectedNode != undefined && node.id == selectedNode.id){
-      
-          ctx.fillStyle = '#654321';
-
-    } else if(iNodes.includes(node.id)){
-      ctx.fillStyle = '#b852ff'; 
-    }else {if(node.type  == 'sensor')ctx.fillStyle = '#1f0818'  
-    else ctx.fillStyle = '#d3ffce'  }
-         
-        ctx.fill();
+    .selector('.highlighted')
+      .css({
+        'background-color': '#61bffc',
+        'line-color': '#61bffc',
+        'target-arrow-color': '#61bffc',
+        'transition-property': 'background-color, line-color, target-arrow-color',
+        'transition-duration': '0.5s'
       })
-      .onNodeClick(node => {
-        selectedNode = undefined;
-        iNodes = [];
-        selectedNode = node;
-        // Center/zoom on node
-        Graph.centerAt(node.x, node.y, 500);
-        Graph.zoom(1.5, 500);
+      .selector('.second_level')
+      .css({
+        'background-color': 'black',
+        'line-color': 'red',
+        'width': 40,
+        'height': 40
       })
-      .graphData(data)  .d3Force('charge').strength(-150);
-    });
+      .selector('.base_level')
+      .css({
+        'background-color': '#61bffc',
+        'width': 50,
+        'height': 50
+      }),
 
- }
+
+  elements: {
+      nodes: [
+        { data: { id: 'a' },  position: { x: 100, y: 100 } },
+        { data: { id: 'b' },  position: { x: 200, y: 150 } },
+        { data: { id: 'c' },  position: { x: 300, y: 200 } },
+        { data: { id: 'd' },  position: { x: 100, y: 250 } },
+        { data: { id: 'e' },  position: { x: 300, y: 50 } },
+        { data: { id: 'x' },  position: { x: 500, y: 400 } },
+        { data: { id: 'y' },  position: { x: 600, y: 450 } },
+        { data: { id: 'z' },  position: { x: 500, y: 500 } },
+        { data: { id: 'v' },  position: { x: 600, y: 550 } },
+        { data: { id: 'w' },  position: { x: 400, y: 550 } },
+        { data: { id: 'SECOND-LEVEL-CLUSTER-HEAD' },  position: { x: 200, y: 400 } },
+        { data: { id: 'o' },  position: { x: 400, y: 350 } },
+        { data: { id: 'p' },  position: { x: 150, y: 600 } },
+        { data: { id: 'BASE-STATION' },  position: { x: -200, y: 550 } },
+
+      ],
+
+      edges: [
+        { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
+        { data: { id: 'cb', weight: 3, source: 'c', target: 'b' } },
+        { data: { id: 'db', weight: 3, source: 'd', target: 'b' } },
+        { data: { id: 'eb', weight: 3, source: 'e', target: 'b' } },
+        { data: { id: 'xh', weight: 3, source: 'x', target: 'z' } },
+        { data: { id: 'yh', weight: 3, source: 'y', target: 'z' } },
+        { data: { id: 'wh', weight: 3, source: 'w', target: 'z' } },
+        { data: { id: 'vh', weight: 3, source: 'v', target: 'z' } },
+        { data: { id: 'bSECOND-LEVEL-CLUSTER-HEAD', weight: 3, source: 'b', target: 'SECOND-LEVEL-CLUSTER-HEAD' } },
+        { data: { id: 'zSECOND-LEVEL-CLUSTER-HEAD', weight: 3, source: 'z', target: 'SECOND-LEVEL-CLUSTER-HEAD' } },
+        { data: { id: 'oSECOND-LEVEL-CLUSTER-HEAD', weight: 3, source: 'o', target: 'SECOND-LEVEL-CLUSTER-HEAD' } },
+        { data: { id: 'pSECOND-LEVEL-CLUSTER-HEAD', weight: 3, source: 'p', target: 'SECOND-LEVEL-CLUSTER-HEAD' } },
+        { data: { id: 'BASE-STATION SECOND-LEVEL-CLUSTER-HEAD', weight: 3, source: 'SECOND-LEVEL-CLUSTER-HEAD', target: 'BASE-STATION' } },
+
+      ]
+    },
+
+  layout: {
+    name: 'preset',
+    padding: 10
+  }
+});
 
 
- function showLPaths(){
-    let data = Graph.graphData();
+var bfs =  cy.edges();
 
-     iNodes = [];
-    if(selectedNode == undefined){
-      alert("select a node to proceed")
-      return;
-    }
-    if(selectedNode.lPaths == undefined){
-      alert("No lpath for super node")
-      return
-    }
-    
-    if(selectedNode.lPaths.length > 0){
-      selectedNode.lPaths.forEach(ar => {
-        ar.forEach(a => {
-          if(!iNodes.includes(a)){
-            iNodes.push(a)
-          }
-        })
-       
+var i = 0;
+var highlightNextEle = function(){
+  if( i < bfs.length ){
+    bfs[i].addClass('highlighted');
 
-      })
-      
+    i++;
+    setTimeout(highlightNextEle, 1000);
+  }
+};
 
-      
-    }
+// kick off first highlight
+highlightNextEle();
 
-    
-  
-    else
-    alert("No nodes to display");
-
- }
- function showDPaths(){
-   let data = Graph.graphData();
-
-    iNodes = [];
-    if(selectedNode == undefined){
-      alert("select a node to proceed")
-      return;
-    }
-    if(selectedNode.dPaths == undefined){
-      alert("No dpath for super node")
-      return
-    }
-    
-    if(selectedNode.dPaths.length > 0){
-      selectedNode.dPaths.forEach(ar => {
-        ar.forEach(a => {
-          if(!iNodes.includes(a)){
-            iNodes.push(a)
-          }
-        })
-       
-
-      })
-      
-
-      
-    }
-
-    
-  
-    else
-    alert("No nodes to display");
-
-    
- }
- function showNeighbour(){
-   let data = Graph.graphData();
-    
-   iNodes = [];
-    if(selectedNode == undefined){
-      alert("select a node to proceed")
-      return;
-    }
-    if(selectedNode.neighbour == undefined){
-      alert("No neighbour for super node")
-      return
-    }
-    
-    if(selectedNode.neighbour.length > 0){
-      selectedNode.neighbour.forEach(ar => {
-      
-          if(!iNodes.includes(ar)){
-            iNodes.push(ar)
-          }
-        
-       
-
-      })
-      
-
-      
-    }
-
-    
-  
-    else
-    alert("No nodes to display");
-
-    
- }
- function showRadius(){
-   let data = Graph.graphData();
-    
-  rT = !rT;
-   console.log(NODE_R, rT);
- Graph.nodeRelSize(10)
-   
- }
+cy.getElementById('SECOND-LEVEL-CLUSTER-HEAD').addClass('second_level');
+cy.getElementById('BASE-STATION').addClass('base_level');
