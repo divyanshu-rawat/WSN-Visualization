@@ -11,6 +11,9 @@ Wireless sensor networks are expected to find wide applicability and increasing 
  - [Cytoscape](http://js.cytoscape.org/): Graph Initializations and Operations
  - [Python](https://www.python.org): Hosting HTML File
 
+## Deployment
+- Heroku
+
 ## How to Run:
  - Clone the repository
  - Open Terminal in the cloned folder
