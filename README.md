@@ -18,3 +18,5 @@ Wireless sensor networks are expected to find wide applicability and increasing 
  - Clone the repository
  - Open Terminal in the cloned folder
  - Run: ```python3 -m http.server 8000```
+
+![Alt Text](https://github.com/divyanshu-rawat/WSN-Visualization/blob/master/Assets/screencast.gif)
